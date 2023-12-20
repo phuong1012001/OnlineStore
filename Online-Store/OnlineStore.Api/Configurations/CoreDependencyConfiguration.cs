@@ -1,4 +1,5 @@
-﻿using OnlineStore.BusinessLogic.Services;
+﻿using OnlineStore.BusinessLogic.Service;
+using OnlineStore.BusinessLogic.Services;
 
 namespace OnlineStore.Api.Configurations
 {
@@ -14,6 +15,7 @@ namespace OnlineStore.Api.Configurations
         {
             collection.AddScoped<IAuthService, AuthService>();
             collection.AddScoped<IProductService, ProductService>();
+            collection.AddScoped<ICartService, CartService>();
         }
     }
 }
