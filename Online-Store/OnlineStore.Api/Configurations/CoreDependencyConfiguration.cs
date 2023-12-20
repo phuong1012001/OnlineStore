@@ -13,6 +13,7 @@ namespace OnlineStore.Api.Configurations
         private static void AddServices(this IServiceCollection collection)
         {
             collection.AddScoped<IAuthService, AuthService>();
+            collection.AddScoped<IProductService, ProductService>();
         }
     }
 }
