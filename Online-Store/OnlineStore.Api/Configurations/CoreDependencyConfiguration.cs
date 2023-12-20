@@ -1,4 +1,6 @@
-﻿namespace OnlineStore.Api.Configurations
+﻿using OnlineStore.BusinessLogic.Services;
+
+namespace OnlineStore.Api.Configurations
 {
     public static class CoreDependencyConfiguration
     {
@@ -10,6 +12,7 @@
 
         private static void AddServices(this IServiceCollection collection)
         {
+            collection.AddScoped<IAuthService, AuthService>();
         }
     }
 }
