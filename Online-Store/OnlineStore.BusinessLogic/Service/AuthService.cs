@@ -59,7 +59,13 @@ namespace OnlineStore.BusinessLogic.Services
             var userEntity = _mapper.Map<User>(registerDto);
             userEntity.Role = 3;
 
+            var cartEntity = new Cart
+            {
+                Customer = userEntity
+            };
+
             _context.Users.Add(userEntity);
+            _context.Carts.Add(cartEntity);
             await _context.SaveChangesAsync();
 
             result.Success = true;
