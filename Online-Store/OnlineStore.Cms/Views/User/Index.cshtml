@@ -1,0 +1,65 @@
+﻿@model IEnumerable<OnlineStore.Cms.Models.Response.User.UserRes>
+
+@{
+    ViewData["Title"] = "User";
+}
+<div id="PlaceHolderHere"></div>
+
+<h1>USER</h1>
+
+<p>
+    <button type="button" id="CreateUserBtn" class="btn btn-success" data-toggle="ajax-modal" data-target="#User" data-url="@Url.Action("Create")">Add User</button>
+</p>
+<form asp-controller="User" asp-action="Index">
+    <p>
+        Search: <input type="text" name="SearchString" />
+        <input type="submit" value="Submit" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Civilian Id</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Date of Birthday</th>
+            <th>Role</th>
+            <th>Deleted</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Civilianld)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isDeleted)
+                </td>
+                <td>
+                    <button type="button" class="btn" data-toggle="ajax-modal" data-target="#User" data-url="@Url.Action($"Edit/{item.Id}")">Edit</button>|
+                    <button type="button" class="btn" data-toggle="ajax-modal" data-target="#User" data-url="@Url.Action($"Delete/{item.Id}")">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
