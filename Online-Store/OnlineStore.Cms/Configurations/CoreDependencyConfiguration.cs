@@ -16,6 +16,7 @@ namespace OnlineStore.Cms.Configurations
             collection.AddScoped<IAuthService, AuthService>();
             collection.AddScoped<IProductService, ProductService>();
             collection.AddScoped<ICartService, CartService>();
+            collection.AddScoped<ICategoryService,  CategoryService>();
         }
     }
 }

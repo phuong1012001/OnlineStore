@@ -1,0 +1,60 @@
+﻿@model IEnumerable<OnlineStore.Cms.Models.Response.Category.CategoryRes>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+<div id="PlaceHolderHere"></div>
+
+<h1>Categories</h1>
+
+<p>
+    <button type="button" id="CreateCategoryBtn" class="btn btn-success" data-toggle="ajax-modal" data-target="#Category" data-url="@Url.Action("Create")">Add Catetory</button>
+</p>
+<form asp-controller="Categories" asp-action="Index">
+    <p>
+        Search: <input type="text" name="SearchString" />
+        <input type="submit" value="Submit" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                Deleted
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isDeleted)
+                </td>
+                <td>
+                    <button type="button" class="btn" data-toggle="ajax-modal" data-target="#Category" data-url="@Url.Action($"Edit/{item.Id}")">Edit</button> |
+                    <button type="button" class="btn" data-toggle="ajax-modal" data-target="#Category" data-url="@Url.Action($"Delete/{item.Id}")">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

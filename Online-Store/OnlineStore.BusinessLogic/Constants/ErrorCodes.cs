@@ -21,6 +21,8 @@ namespace OnlineStore.BusinessLogic.Constants
 
         public const string NotFoundCart = "NotFoundCart";
 
+        public const string NotFoundCategory = "NotFoundCategory";
+
         public const string AccountAlreadyExists = "AccountAlreadyExists";
 
         public const string IncorrectPassword = "IncorrectPassword";
