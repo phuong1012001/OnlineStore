@@ -10,7 +10,7 @@
 
         public string Image { get; set; }
 
-        public Boolean isDeleted { get; set; }
+        public bool isDeleted { get; set; }
 
         public string? ErrorCode { get; set; }
     }

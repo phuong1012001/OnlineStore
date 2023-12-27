@@ -17,7 +17,7 @@ namespace OnlineStore.DataAccess.Entities
         [StringLength(50)]
         public string Image { get; set; }
 
-        public Boolean isDeleted { get; set; }
+        public bool isDeleted { get; set; }
 
         public ICollection<Product> Products { get; set; }
     }

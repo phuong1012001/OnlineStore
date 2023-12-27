@@ -39,7 +39,7 @@ namespace OnlineStore.BusinessLogic.Service
             return result;
         }
 
-        public async Task<Dtos.Category.CategoryDto> GetCategory(int id)
+        public async Task<CategoryDto> GetCategory(int id)
         {
             var result = new CategoryDto();
 

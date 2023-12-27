@@ -81,7 +81,7 @@ namespace OnlineStore.Api.Controllers
                     return BadRequest(response);
                 }
 
-                var result = await _authService.RegisterUser(Mapper.Map<RegisterDto>(request));
+                var result = await _authService.RegisterUser(Mapper.Map<UserDto>(request));
 
                 if (!string.IsNullOrEmpty(result.ErrorCode))
                 {

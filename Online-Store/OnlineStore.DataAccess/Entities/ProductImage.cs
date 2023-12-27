@@ -13,10 +13,10 @@ namespace OnlineStore.DataAccess.Entities
         public int Order { get; set; }
 
         public int ProductId { get; set; }
+
         public Product Product { get; set; }
 
         [StringLength(50)]
-        public string Path { get; set; }
-       
+        public string Path { get; set; }  
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.BusinessLogic.Constants;
-using OnlineStore.BusinessLogic.Dtos.Cart;
+using OnlineStore.BusinessLogic.Dtos.Category;
 using OnlineStore.BusinessLogic.Dtos.Product;
 using OnlineStore.DataAccess.DbContexts;
 using OnlineStore.DataAccess.Entities;
@@ -11,11 +11,9 @@ namespace OnlineStore.BusinessLogic.Services
     public interface IProductService
     {
         Task<List<ProductDto>> GetProducts();
-
         Task<ProductDto> GetProduct(int id);
-
+        Task<ProductResultDto> CreateProduct(ProductDto productDto);
         Task<List<ProductDto>> SearchProduct(string keyword);
-
         Task<ProductResultDto> AddCart(ProductInCartDto productInCartDto);
     }
 
@@ -32,15 +30,14 @@ namespace OnlineStore.BusinessLogic.Services
 
         public async Task<List<ProductDto>> GetProducts()
         {
-            var products = new List<ProductDto>();
-
-            var productDb = _context.Products
-                .Where(i => i.isDeleted == false)
+            var products = _context.Products
+                .Include(c => c.Category)
+                .Include(u => u.User)
                 .ToList();
 
-            products = _mapper.Map<List<ProductDto>>(productDb);
+            var result = _mapper.Map<List<ProductDto>>(products);
 
-            return products;
+            return result;
         }
 
         public async Task<ProductDto> GetProduct(int id)
@@ -49,7 +46,8 @@ namespace OnlineStore.BusinessLogic.Services
 
             var product = await _context.Products
                 .Include (c => c.Category)
-                .FirstOrDefaultAsync(x => x.Id == id && x.isDeleted == false);
+                .Include (u => u.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if(product == null)
             {
@@ -57,17 +55,29 @@ namespace OnlineStore.BusinessLogic.Services
                 return result;
             }
 
-            var stock = await _context.Stocks
-                .FirstOrDefaultAsync(x => x.ProductId == id);
+            result = _mapper.Map<ProductDto>(product);
 
-            if (stock == null)
+            return result;
+        }
+
+        public async Task<ProductResultDto> CreateProduct(ProductDto productDto)
+        {
+            var result = new ProductResultDto();
+
+            var category = await _context.Category
+                .FirstOrDefaultAsync(x => x.Id == productDto.CategoryId);
+
+            if (category == null)
             {
-                result.ErrorMessage = ErrorCodes.NotFoundStock;
+                result.ErrorMessage = ErrorCodes.NotFoundCategory;
                 return result;
             }
 
-            result = _mapper.Map<ProductDto>(product);
-            result.Quantity = stock.Quantity;
+            var product = _mapper.Map<Product>(productDto);
+            product.CreatedBy = 2;
+
+            _context.Category.Update(category);
+            await _context.SaveChangesAsync();
 
             return result;
         }
@@ -78,7 +88,8 @@ namespace OnlineStore.BusinessLogic.Services
 
             var productDb = _context.Products
                 .Include(c => c.Category)
-                .Where(i => i.isDeleted == false && i.Category.Name!.Contains(keyword));
+                .Include(u => u.User)
+                .Where(i => i.Category.Name!.Contains(keyword));
 
             products = _mapper.Map<List<ProductDto>>(productDb);
 

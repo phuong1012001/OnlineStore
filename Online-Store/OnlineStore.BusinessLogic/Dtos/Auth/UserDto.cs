@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace OnlineStore.BusinessLogic.Dtos.Auth
+﻿namespace OnlineStore.BusinessLogic.Dtos.Auth
 {
     public class UserDto
     {

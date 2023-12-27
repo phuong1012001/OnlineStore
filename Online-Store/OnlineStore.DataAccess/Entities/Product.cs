@@ -27,8 +27,9 @@ namespace OnlineStore.DataAccess.Entities
         public DateTime CreatedAt { get; set; }
 
         public int CategoryId { get; set; }
+
         public Category Category { get; set; }
 
-        public Boolean isDeleted { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

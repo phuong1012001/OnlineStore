@@ -14,9 +14,9 @@ namespace OnlineStore.Api.Mappers
 
             CreateMap<AuthResultDto, LoginRes>();
 
-            CreateMap<RegisterReq, RegisterDto>();
+            CreateMap<RegisterReq, UserDto>();
 
-            CreateMap<RegisterDto, User>();
+            CreateMap<UserDto, User>();
 
             CreateMap<AuthResultDto, RegisterRes>();
 
