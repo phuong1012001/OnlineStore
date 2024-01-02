@@ -15,13 +15,13 @@ namespace OnlineStore.BusinessLogic.Constants
 
         public const string NotFoundUser = "NotFoundUser";
 
-        public const string NotFoundProduct = "NotFoundProduct";
+        public const string ProductNotFound = "ProductNotFound";
 
         public const string NotFoundStock = "NotFoundStock";
 
         public const string NotFoundCart = "NotFoundCart";
 
-        public const string NotFoundCategory = "NotFoundCategory";
+        public const string CategoryNotFound = "CategoryNotFound";
 
         public const string AccountAlreadyExists = "AccountAlreadyExists";
 

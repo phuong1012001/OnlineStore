@@ -11,7 +11,7 @@
 <p>
     <button type="button" id="CreateProductBtn" class="btn btn-success" data-toggle="ajax-modal" data-target="#Product" data-url="@Url.Action("Create")">Add Product</button>
 </p>
-<form asp-controller="Products" asp-action="Index">
+<form asp-controller="Product" asp-action="Index">
     <p>
         Search: <input type="text" name="SearchString" />
         <input type="submit" value="Submit" />
@@ -64,7 +64,7 @@
                     @Html.DisplayFor(modelItem => item.UnitPrice)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.FullName)
+                    @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CategoryName)
@@ -76,7 +76,7 @@
                     @Html.DisplayFor(modelItem => item.isDeleted)
                 </td>
                 <td>
-                    <button type="button" class="btn" data-toggle="ajax-modal" data-target="#Product" data-url="@Url.Action($"Edit/{item.Id}")">Edit</button>|
+                    <button type="button" class="btn" data-toggle="ajax-modal" data-target="#Product" data-url="@Url.Action($"Update/{item.Id}")">Edit</button>|
                     <button type="button" class="btn" data-toggle="ajax-modal" data-target="#Product" data-url="@Url.Action($"Delete/{item.Id}")">Delete</button>
                 </td>
             </tr>

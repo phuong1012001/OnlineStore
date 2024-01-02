@@ -29,11 +29,11 @@ namespace OnlineStore.DataAccess.DbContexts
             builder.ApplyConfiguration(new CartDetailConfiguration());
         }
 
-        public DbSet<Category> Category { get; set; }
+        public DbSet<Category> Categorys { get; set; }
 
-        public DbSet<Order> Order { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
-        public DbSet<OrderDetail> OrderDetail { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
         public DbSet<Product> Products { get; set; }
 
