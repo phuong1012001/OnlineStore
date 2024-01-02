@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OnlineStore.DataAccess.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineStore.DataAccess.Entities
@@ -26,7 +27,7 @@ namespace OnlineStore.DataAccess.Entities
 
         public DateTime DateOfBirth { get; set; }
 
-        public int Role { get; set; }
+        public Roles Role { get; set; }
 
         public bool isDeleted { get; set; }
     }

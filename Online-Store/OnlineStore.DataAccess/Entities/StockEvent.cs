@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OnlineStore.DataAccess.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineStore.DataAccess.Entities
@@ -14,7 +15,7 @@ namespace OnlineStore.DataAccess.Entities
 
         public Stock Stock { get; set; }
 
-        public int Type { get; set; }
+        public Types Type { get; set; }
 
         [StringLength(50)]
         public string Reason { get; set; }
