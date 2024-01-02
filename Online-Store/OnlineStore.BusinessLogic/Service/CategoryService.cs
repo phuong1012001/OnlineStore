@@ -9,12 +9,11 @@ namespace OnlineStore.BusinessLogic.Service
 {
     public interface ICategoryService
     {
-        Task<List<CategoryDto>> GetCategories();
-        Task<CategoryDto> GetCategory(int id);
-        Task CreateCategory(CategoryDto categoryDto);
-        Task<List<CategoryDto>> GetSearch(string searchString);
-        Task<CategoryResultDto> SaveCategory(CategoryDto categoryDto);
-        Task<CategoryResultDto> DeleteCategory(int id);
+        Task<CategoryDto[]> GetCategories(string? searchString);
+        Task<(string ErrorCode, CategoryDto CategoryDto)> GetCategory(int id);
+        Task<string> CreateCategory(CategoryDto categoryDto);
+        Task<string> UpdateCategory(CategoryDto categoryDto);
+        Task<string> DeleteCategory(int id);
 
     }
 
@@ -29,95 +28,78 @@ namespace OnlineStore.BusinessLogic.Service
             _context = context;
         }
 
-        public async Task<List<CategoryDto>> GetCategories()
+        public async Task<CategoryDto[]> GetCategories(string? searchString)
         {
-            var categories = _context.Category
-                .ToList();
+            var categoriesDb = _context.Categorys;
 
-            var result = _mapper.Map<List<CategoryDto>>(categories);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var categories = categoriesDb.Where(x => x.Name!.Contains(searchString));
+                return _mapper.Map<CategoryDto[]>(categories.ToArray());
+            }
 
-            return result;
+            return _mapper.Map<CategoryDto[]>(categoriesDb.ToArray());
         }
 
-        public async Task<CategoryDto> GetCategory(int id)
+        public async Task<(string ErrorCode, CategoryDto CategoryDto)> GetCategory(int id)
         {
-            var result = new CategoryDto();
+            var categoryDto = new CategoryDto();
 
-            var category = await _context.Category
+            var category = await _context.Categorys
                 .FirstOrDefaultAsync(x => x.Id == id);
-
             if (category == null)
             {
-                result.ErrorCode = ErrorCodes.NotFoundCategory;
-                return result;
+                return (ErrorCodes.CategoryNotFound, categoryDto);
             }
-            result = _mapper.Map<CategoryDto>(category);
 
-            return result;
+            categoryDto = _mapper.Map<CategoryDto>(category);
+
+            return (null, categoryDto);
         }
 
-        public async Task CreateCategory(CategoryDto categoryDto)
+        public async Task<string> CreateCategory(CategoryDto categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
 
-            _context.Category.Update(category);
+            _context.Categorys.Update(category);
             await _context.SaveChangesAsync();
+
+            return string.Empty;
         }
 
-        public async Task<List<CategoryDto>> GetSearch(string searchString)
+        public async Task<string> UpdateCategory(CategoryDto categoryDto)
         {
-            var categories = _context.Category
-                .Where(x => x.Name!.Contains(searchString))
-                .ToList();
-
-            var result = _mapper.Map<List<CategoryDto>>(categories);
-
-            return result;
-        }
-
-        public async Task<CategoryResultDto> SaveCategory(CategoryDto categoryDto)
-        {
-            var result = new CategoryResultDto();
-
-            var category = await _context.Category
+            var category = await _context.Categorys
                     .FirstOrDefaultAsync(x => x.Id == categoryDto.Id);
-
             if (category == null)
             {
-                result.ErrorCode = ErrorCodes.NotFoundCategory;
-                return result;
+                return ErrorCodes.CategoryNotFound;
             }
 
             category.Name = categoryDto.Name;
             category.Description = categoryDto.Description;
             category.Image = categoryDto.Image;
 
-            _context.Category.Update(category);
+            _context.Categorys.Update(category);
             await _context.SaveChangesAsync();
 
-            result.Success = true;
-            return result;
+            return string.Empty;
         }
 
-        public async Task<CategoryResultDto> DeleteCategory(int id)
+        public async Task<string> DeleteCategory(int id)
         {
-            var result = new CategoryResultDto();
-
-            var category = await _context.Category
+            var category = await _context.Categorys
                 .FirstOrDefaultAsync(x => x.Id == id);
-
             if (category == null)
             {
-                result.ErrorCode = ErrorCodes.NotFoundCategory;
-                return result;
+                return ErrorCodes.CategoryNotFound;
             }
 
             category.isDeleted = true;
-            _context.Category.Update(category);
+            _context.Categorys.Update(category);
             await _context.SaveChangesAsync();
 
-            result.Success = true;
-            return result;
+            return string.Empty;
         }
     }
 }

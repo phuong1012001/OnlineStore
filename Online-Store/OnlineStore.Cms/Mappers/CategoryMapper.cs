@@ -10,15 +10,10 @@ namespace OnlineStore.Cms.Mappers
     {
         public CategoryMapper()
         {
-            //Index
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, CategoryRes>();
-
-            //Create
             CreateMap<CategoryReq, CategoryDto>();
             CreateMap<CategoryDto, Category>();
-
-            //Edit
             CreateMap<CategoryDto, CategoryEditRes>();
             CreateMap<CategoryEditReq, CategoryDto>();
         }

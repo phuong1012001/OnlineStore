@@ -29,14 +29,8 @@ namespace OnlineStore.Cms.Controllers
         {
             try
             {
-                if (!string.IsNullOrEmpty(searchString))
-                {
-                    var resultSearch = await _categoryService.GetSearch(searchString);
-                    return View(Mapper.Map<List<CategoryRes>>(resultSearch));
-                }
-
-                var result = await _categoryService.GetCategories();
-                return View(Mapper.Map<List<CategoryRes>>(result));
+                var result = await _categoryService.GetCategories(searchString);
+                return View(Mapper.Map<CategoryRes[]>(result));
             }
             catch
             {
@@ -74,34 +68,28 @@ namespace OnlineStore.Cms.Controllers
             }
         }
 
-        // GET: CategoryController/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        // GET: CategoryController/Update/5
+        public async Task<IActionResult> Update(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var result = await _categoryService.GetCategory(id); ;
-
             if (!string.IsNullOrEmpty(result.ErrorCode))
             {
                 switch (result.ErrorCode)
                 {
-                    case ErrorCodes.NotFoundCategory:
+                    case ErrorCodes.CategoryNotFound:
                         return BadRequest("Doesn't find category.");
                 }
             }
 
-            var user = Mapper.Map<CategoryEditRes>(result);
+            var category = Mapper.Map<CategoryEditRes>(result.CategoryDto);
 
-            return PartialView("Edit", user);
+            return PartialView("Update", category);
         }
 
-        // POST: CategoryController/Edit/5
+        // POST: CategoryController/Update/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CategoryEditReq category)
+        public async Task<IActionResult> Update(int id, CategoryEditReq category)
         {
             try
             {
@@ -114,13 +102,14 @@ namespace OnlineStore.Cms.Controllers
 
                 var categoryEditReq = Mapper.Map<CategoryDto>(category);
                 categoryEditReq.Id = id;
-                var result = await _categoryService.SaveCategory(categoryEditReq);
 
-                if (!string.IsNullOrEmpty(result.ErrorCode))
+                var errorCode = await _categoryService.UpdateCategory(categoryEditReq);
+
+                if (!string.IsNullOrWhiteSpace(errorCode))
                 {
-                    switch (result.ErrorCode)
+                    switch (errorCode)
                     {
-                        case ErrorCodes.NotFoundCategory:
+                        case ErrorCodes.CategoryNotFound:
                             return BadRequest("Doesn't find category.");
                     }
                 }
@@ -137,18 +126,12 @@ namespace OnlineStore.Cms.Controllers
         {
             try
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
                 var result = await _categoryService.GetCategory(id);
-
-                if (!string.IsNullOrEmpty(result.ErrorCode))
+                if (!string.IsNullOrWhiteSpace(result.ErrorCode))
                 {
                     switch (result.ErrorCode)
                     {
-                        case ErrorCodes.NotFoundCategory:
+                        case ErrorCodes.CategoryNotFound:
                             return BadRequest("Doesn't find category.");
                     }
                 }
@@ -164,17 +147,17 @@ namespace OnlineStore.Cms.Controllers
         // POST: CategoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAsync(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
-                var result = await _categoryService.DeleteCategory(id);
+                var errorCode = await _categoryService.DeleteCategory(id);
 
-                if (!string.IsNullOrEmpty(result.ErrorCode))
+                if (!string.IsNullOrWhiteSpace(errorCode))
                 {
-                    switch (result.ErrorCode)
+                    switch (errorCode)
                     {
-                        case ErrorCodes.NotFoundCategory:
+                        case ErrorCodes.CategoryNotFound:
                             return BadRequest("Doesn't find category.");
                     }
                 }

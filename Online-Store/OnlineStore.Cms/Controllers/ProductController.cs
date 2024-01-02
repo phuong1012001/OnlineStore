@@ -47,7 +47,7 @@ namespace OnlineStore.Cms.Controllers
         // GET: ProductController/Create
         public async Task<IActionResult> Create()
         {
-            var categorys = await _categoryService.GetCategories();
+            var categorys = await _categoryService.GetCategories("");
             ViewData["CategoryList"] = new SelectList(categorys,
                 nameof(Category.Id),
                 nameof(Category.Name));
@@ -109,7 +109,7 @@ namespace OnlineStore.Cms.Controllers
 
             var product = Mapper.Map<ProductEditRes>(result.ProductDto);
 
-            var categorys = await _categoryService.GetCategories();
+            var categorys = await _categoryService.GetCategories("");
             ViewData["CategoryList"] = new SelectList(categorys,
                 nameof(Category.Id),
                 nameof(Category.Name));
