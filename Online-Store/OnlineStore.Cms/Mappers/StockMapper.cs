@@ -15,6 +15,7 @@ namespace OnlineStore.Cms.Mappers
             CreateMap<StockDto, StockRes>();
             CreateMap<StockEventReq, StockEventDto>();
             CreateMap<StockEventDto, StockEvent>();
+            CreateMap<StockEventDto, StockEventRes>();
         }
     }
 }

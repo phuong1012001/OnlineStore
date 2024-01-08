@@ -12,6 +12,7 @@ namespace OnlineStore.BusinessLogic.Service
     {
         Task<StockDto[]> GetStocks(string? SearchString);
         Task<string> CreateStockEvent(StockEventDto stockEventDto);
+        Task<StockEventDto[]> GetStockEvents(string? SearchString);
     }
 
     public class StockService : IStockService
@@ -87,6 +88,36 @@ namespace OnlineStore.BusinessLogic.Service
             await _context.SaveChangesAsync();
 
             return string.Empty;
+        }
+
+        public async Task<StockEventDto[]> GetStockEvents(string? SearchString)
+        {
+            var stockEventQuery = from se in _context.StockEvents
+                                  join s in _context.Stocks on se.StockId equals s.Id
+                                  join p in _context.Products on s.ProductId equals p.Id
+                                  join c in _context.Categories on p.CategoryId equals c.Id
+                                  select new StockEventDto
+                                  {
+                                      Id = se.Id,
+                                      StockId = s.Id,
+                                      Type = se.Type,
+                                      Reason = se.Reason,
+                                      ProductName = p.Name,
+                                      CategoryName = c.Name,
+                                      Quantity = s.Quantity,
+                                      CreatedAt = se.CreatedAt
+
+                                  };
+            var a = stockEventQuery.ToArray();
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                stockEventQuery = stockEventQuery
+                    .Where(s => s.ProductName!.Contains(SearchString)
+                    || s.CategoryName!.Contains(SearchString));
+            }
+
+            return stockEventQuery.ToArray();
         }
     }
 }
