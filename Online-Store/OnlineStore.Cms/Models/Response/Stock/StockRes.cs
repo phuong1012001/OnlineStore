@@ -1,10 +1,8 @@
-﻿namespace OnlineStore.BusinessLogic.Dtos.Stock
+﻿namespace OnlineStore.Cms.Models.Response.Stock
 {
-    public class StockDto
+    public class StockRes
     {
         public int Id { get; set; }
-
-        public int ProductId { get; set; }
 
         public string? ProductName { get; set; }
 

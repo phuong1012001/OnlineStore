@@ -1,0 +1,50 @@
+﻿@model IEnumerable<OnlineStore.Cms.Models.Response.Stock.StockRes>
+
+@{
+    ViewData["Title"] = "Stock";
+}
+
+<div id="PlaceHolderHere"></div>
+
+<h1>STOCK</h1>
+
+<form asp-controller="Stock" asp-action="Index">
+    <p>
+        Search: <input type="text" name="SearchString" />
+        <input type="submit" value="Submit" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Create Event</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <th>
+                    <button type="button" class="btn" data-toggle="ajax-modal" data-target="#Stock" data-url="@Url.Action($"Create/{item.Id}")">Increase/Decrease</button>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

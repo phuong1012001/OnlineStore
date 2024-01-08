@@ -1,0 +1,50 @@
+﻿@using OnlineStore.DataAccess.Enums
+@model OnlineStore.Cms.Models.Request.Stock.StockEventReq
+
+<div class="modal fade" id="Stock" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Create">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addStockEventLabel">Create</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span>X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Type">Type</label>
+                        <select asp-for="Type" class="form-control"
+                                asp-items="Html.GetEnumSelectList<Types>()">
+                            <option value="">
+                                -- Select Type --
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Reason" class="control-label"></label>
+                        <input asp-for="Reason" class="form-control" />
+                        <span asp-validation-for="Reason" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        <input asp-for="Quantity" class="form-control" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" data-save="modal">Save</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
